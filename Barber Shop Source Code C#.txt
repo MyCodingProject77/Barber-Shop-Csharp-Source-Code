@@ -1,0 +1,50 @@
+
+
+
+
+        Insert Code
+
+        SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-HEEKBHE\SQLEXPRESS;Initial Catalog=ShopDB;Integrated Security=True");
+            con.Open();
+            SqlCommand cmd = new SqlCommand("insert into barber(id,service,price,paymentmethod) values(@id,@service,@price,@paymentmethod)", con);
+            cmd.Parameters.AddWithValue("@ID", int.Parse(textBox1.Text));
+            cmd.Parameters.AddWithValue("@Service", textBox2.Text);
+            cmd.Parameters.AddWithValue("@Price", comboBox1.GetItemText(comboBox1.SelectedItem));
+            cmd.Parameters.AddWithValue("@PaymentMethod", comboBox2.GetItemText(comboBox2.SelectedItem));
+            cmd.ExecuteNonQuery();
+            con.Close();
+            BinData();
+
+
+
+        void BinData()
+        {
+            SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-HEEKBHE\SQLEXPRESS;Initial Catalog=ShopDB;Integrated Security=True");
+            con.Open();
+            SqlCommand cmd = new SqlCommand("select * from barber", con);
+            SqlDataAdapter da = new SqlDataAdapter(cmd);
+            DataTable dt = new DataTable();
+            da.Fill(dt);
+            dataGridView1.DataSource = dt;
+        }
+
+
+
+
+       Form_Load Code
+
+
+       BinData();
+
+
+
+
+    SqlConnection con = new SqlConnection(@"Data Source=DESKTOP-HEEKBHE\SQLEXPRESS;Initial Catalog=ShopDB;Integrated Security=True");
+            con.Open();
+            SqlCommand cmd = new SqlCommand("delete barber where id=@id", con);
+            cmd.Parameters.AddWithValue("@ID", int.Parse(textBox1.Text));
+            
+            cmd.ExecuteNonQuery();
+            con.Close();
+            MessageBox.Show("Data Deleted");
+            BinData();
